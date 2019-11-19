@@ -38,3 +38,32 @@ inline void deleteList(ListNode* list){
         delete tmp;
     }
 }
+//得到第k(第一个节点的index为0)个节点的指针
+inline ListNode* index(ListNode* list, int k){
+	ListNode* p = list;
+	for(int i = 0; i < k; i++){
+		if(p == nullptr){
+			return nullptr;
+		}
+		p = p->next;
+	}
+	return p;
+}
+
+inline ListNode* listTail(ListNode* list, int* len){
+    ListNode* p = list;
+	if(p == nullptr){
+		if(len) *len = 0;
+		return 0;
+	}
+	int i = 1;
+    while(p->next != nullptr){
+		i++;
+        p = p->next;
+    }
+	if(len){
+		*len = i;
+	}
+    return p;
+}
+
