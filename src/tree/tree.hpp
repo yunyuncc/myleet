@@ -1,5 +1,9 @@
 #pragma once
-
+#include <vector>
+#include <algorithm>
+#include <iterator>
+#include <iostream>
+using namespace std;
 //Definition for a binary tree node.
 struct TreeNode {
     int val;
@@ -17,10 +21,19 @@ inline struct TreeNode* createTree(const std::vector<int>& sortedNums){
     auto mid = sortedNums.begin() + sortedNums.size()/2;
     TreeNode* node = new TreeNode(*mid);
 	//03 拆分子问题
-    vector<int> left(sortedNums.begin(), mid);
-    vector<int> right(mid+1, sortedNums.end());
+    std::vector<int> left(sortedNums.begin(), mid);
+    std::vector<int> right(mid+1, sortedNums.end());
     node->left = createTree(left);
-    node->right = sortedArrayToBST(right);
+    node->right = createTree(right);
     return node;
 }
-
+inline std::vector<int> inorderTraversal(TreeNode* root){
+    if(root == nullptr){
+        return {};
+    }
+    auto left = inorderTraversal(root->left);
+    auto right = inorderTraversal(root->right);
+    left.push_back(root->val);
+    std::copy(right.begin(), right.end(), std::back_inserter(left));
+    return left;
+}
